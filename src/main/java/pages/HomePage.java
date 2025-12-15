@@ -7,6 +7,7 @@ import javax.swing.JComboBox.KeySelectionManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
@@ -35,15 +36,22 @@ public class HomePage extends BaseClass {
 
 	}
 
-	@FindBy(xpath = "//li[@class='select2-results__option']")List<WebElement> listfromElements;
-
+	@FindBy(xpath = "//li[@class='select2-results__option'] ")List<WebElement> listfromElements;
+	@FindBy(id="chat-bot-message-close") WebElement closElement;
+	@FindBy(id="chat-bot-message-container") WebElement chatbotElement;
 	public void selectFromDropdownByIndex(int index, String valueToSelect) {
 
 	    WebElement dropdown = driver.findElement(By.xpath("(//span[@class='selection']/child::span)[" + index + "]"));
 
 	    scrollToElement(dropdown);
+	    ElementVisble(dropdown);
 	    dropdown.click();
-
+	    
+	    Actions actions= new Actions(driver);
+	    actions.moveToElement(chatbotElement);
+	    ElementVisble(closElement);
+	    ElementClickable(closElement);
+	    
 	    for (WebElement option : listfromElements) {
 	        if (option.getText().trim().contains(valueToSelect)) {
 	            option.click();
